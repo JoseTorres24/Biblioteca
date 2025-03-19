@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from gestor.views import listar_libros  # Asegúrate de importar la vista
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("gestor.urls")),  # Redirige la raíz ("/") a las URLs de "gestor"
+    path("gestor/", include("gestor.urls")),
+    path("", listar_libros),  # Esto hace que la página principal muestre los libros
 ]
 
 
