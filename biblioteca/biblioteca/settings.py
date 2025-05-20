@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BIBLIOTECA',  # Nombre de la base de datos
-        'USER': 'root',         # Usuario de MySQL
-        'PASSWORD': '2405',     # Contraseña de MySQL
-        'HOST': 'localhost',    # Host del servidor de la base de datos
-        'PORT': '3306',         # Puerto de conexión (3306 es el predeterminado para MySQL)
+        'NAME': os.getenv('DATABASE_NAME', 'biblioteca'),
+        'USER': os.getenv('DATABASE_USER', 'user'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'password'),
+        'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
     }
 }
 
