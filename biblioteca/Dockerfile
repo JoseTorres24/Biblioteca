@@ -1,27 +1,24 @@
-# Utilizar una imagen base de Python
+# Usa una imagen base
 FROM python:3.12-slim
 
-# Configurar variables de entorno
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Instalar dependencias del sistema necesarias para mysqlclient
-RUN apt-get update && apt-get install -y \
-    gcc \
-    default-libmysqlclient-dev \
-    && apt-get clean
-
-# Crear y establecer el directorio de trabajo en el contenedor
+# Crea un directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos de requisitos al contenedor
-COPY requirements.txt /app/requirements.txt
+# Instala las dependencias del sistema necesarias
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libmariadb-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-# Instalar las dependencias de Python
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiar el resto de la aplicación
+# Copia los archivos del proyecto al contenedor
 COPY . /app
 
-# Comando por defecto (puedes ajustarlo según tu proyecto)
+# Instala las dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expone el puerto
+EXPOSE 8000
+
+# Comando por defecto
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
