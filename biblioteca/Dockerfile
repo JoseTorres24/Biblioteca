@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
 COPY . /app
 
 # Instala las dependencias de Python
-RUN pip install --no-cache-dir -r */requirements.txt
+COPY */requirements.txt .
+RUN pip install -r */requirements.txt 
 
 # Expone el puerto
 EXPOSE 8000
